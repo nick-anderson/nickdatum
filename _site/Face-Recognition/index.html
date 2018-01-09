@@ -1,0 +1,734 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.6.0 by Michael Rose
+  Copyright 2017 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Face Recognition - nickdatum</title>
+
+
+
+
+<meta name="description" content="Inspired by the new Iphone-X face unlock, I build my own pipeline and Convolutional Neural Network to detect faces and classify it with probability">
+
+
+
+
+<meta name="author" content="Nick Anderson">
+
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="nickdatum">
+<meta property="og:title" content="Face Recognition">
+
+
+
+
+  <meta property="og:description" content="Inspired by the new Iphone-X face unlock, I build my own pipeline and Convolutional Neural Network to detect faces and classify it with probability">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-10-14T00:00:00-05:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Nick Anderson",
+      "url" : null,
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="nickdatum Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">nickdatum</a>
+        <ul class="visible-links">
+          
+        </ul>
+        <button type="button">
+          <span class="visually-hidden">Toggle Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/profile.png" class="author__avatar" alt="Nick Anderson" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name" itemprop="name">Nick Anderson</h3>
+    
+      <p class="author__bio" itemprop="description">
+        Data Engineer Millenial
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> <span itemprop="name">Chicago, IL</span>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://www.linkedin.com/in/nickanderson" itemprop="sameAs">
+            <i class="fa fa-fw fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/nick-anderson" itemprop="sameAs">
+            <i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fa fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Face Recognition">
+    <meta itemprop="description" content="Inspired by the new Iphone-X face unlock, I build my own pipeline and Convolutional Neural Network to detect faces and classify it with probability">
+    <meta itemprop="datePublished" content="October 14, 2017">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Face Recognition
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+
+
+  9 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Inspired by the new Iphone-X face unlock, I build my own pipeline and Convolutional Neural Network to detect faces and classify it with probability
+<img src="https://www.mathworks.com/content/mathworks/www/en/discovery/convolutional-neural-network/jcr:content/mainParsys/image_copy.adapt.full.high.jpg/1508999490138.jpg" alt="jekyll Image" /></p>
+
+<h2 id="shell-script-for-webcam-photos">Shell Script for Webcam Photos</h2>
+<p>For the model training and augmentation, I wanted 100 images of both Brittany and I with a distinctive label in file name to make the segmentation easier down the line for parsing. Looking online I found a software that was a simple brew install called imagesnap. The only parameter it took in was the export path, so a bash script for loop would do the job! I had an if then echo prompt to distinguish between our two photoshoots.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Echo <span class="nt">-n</span> <span class="s2">"Take pictures of Nick?"</span>
+<span class="nb">read </span>answer
+<span class="k">if </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$answer</span><span class="s2">"</span> | <span class="nb">grep</span> <span class="nt">-iq</span> <span class="s2">"^y"</span> <span class="p">;</span><span class="k">then
+    </span><span class="nb">echo </span>Yes
+    <span class="k">for </span>x <span class="k">in</span> <span class="o">{</span>1..100<span class="o">}</span><span class="p">;</span> <span class="k">do </span>imagesnap images/nick<span class="nv">$x</span>.jpg<span class="p">;</span> <span class="k">done
+else
+    </span><span class="nb">echo </span>No
+    <span class="k">for </span>x <span class="k">in</span> <span class="o">{</span>1..100<span class="o">}</span><span class="p">;</span> <span class="k">do </span>imagesnap images/britt<span class="nv">$x</span>.jpg<span class="p">;</span> <span class="k">done
+fi</span>
+</code></pre></div></div>
+<h2 id="face-detection--labeling">Face Detection &amp; Labeling</h2>
+
+<p>With 200 images of each user, it was time to detect a face in each image and once again store in a new file directory. This python script could have been executed at same run time as the bash script, but incase I fat fingered something I couldn’t risk asking twice to have Brittany make silly faces to my laptop for a few minutes while I snapchated the phenomenom :P. So with this python script, I’m reading in each image and using a Haar Cascades classifier. It is a machine learning based approach where a cascade function is trained from a lot of positive and negative images (Positive images have faces, negative don’t). I used a pre-trained model stored in haarcascade_frontalface_default.xml, more details here at  https://en.wikipedia.org/wiki/Haar-like_featureIt . is then used to detect objects in other images
+fjaklsfd</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">(</span><span class="s">'nick'</span><span class="p">,</span><span class="s">'britt'</span><span class="p">):</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s">'images/raw_images/</span><span class="si">%</span><span class="s">s</span><span class="si">%</span><span class="s">s.jpg'</span><span class="o">%</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="n">i</span><span class="p">))</span>
+            <span class="n">faces</span> <span class="o">=</span> <span class="n">face_cascade</span><span class="o">.</span><span class="n">detectMultiScale</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="n">minSize</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="p">))</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">faces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">,</span><span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,:]</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">INTER_CUBIC</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s">"images/face_images/</span><span class="si">%</span><span class="s">s_</span><span class="si">%</span><span class="s">s.jpg"</span><span class="o">%</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="n">counter</span><span class="p">),</span><span class="n">img</span><span class="p">)</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">'No face detected in frame </span><span class="si">%</span><span class="s">s'</span><span class="o">%</span><span class="n">i</span>
+            <span class="k">pass</span>
+</code></pre></div></div>
+
+<p>For the webcam photos, I used a 200 by 200 rectangle for face region, minimum of 3 neighbors and a 1.05 scaleFactor, with these parameters it almost detected a face in every image. Since the first layer of my neural network needs a static 2d array dimensions, I resized every face region captured into a 300x300 array. This is a data transformation very similar to my real-time when I’m capturing a face region and resizing to 300x300 to feed through the network.</p>
+<h2 id="data-augmentation">Data Augmentation</h2>
+<p>For real powerful image classifiction problems (detecting cats, dogs, hotdots or not), more data with labels always makes the network learn better on how to differentiate. I’m not building a very sophisticated model to handle the classification of our faces being in a much different enviroment compared to training. Only 200 images is still a bit small.. the alexnet used X. A popular method of generating more data using previous data is a technique called data augmentation. I tried to get a lot of different face positions/reactions when capturing the intial 100 photos, but I can apply some simple computational photography techniques to flip the photo, add gaussian noise, brighten, darken, etc. Millions of permutations of combinations to do.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*bqNylp7FcqIBWg0DrcimUw.png" alt="jekyll Image" /></p>
+
+<p>In my testing photos I would only expect the flip LR and gaussian blur if the quality was lower. Iteratively I generated more input data by flipping the face horizontally with numpy operation and adding a gaussian blur with a 5x5 kernel. This generated X photos in total and was enough input to start!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">pic</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s">'images/face_images'</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">pic</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">'_'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">'images/face_images/'</span><span class="p">,</span><span class="n">pic</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">blur</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">True</span><span class="p">,</span><span class="bp">False</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">flip</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">True</span><span class="p">,</span><span class="bp">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">blur</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">flip</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="s">'britt'</span><span class="p">:</span>
+                    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s">'images/train/britt_</span><span class="si">%</span><span class="s">s.jpg'</span><span class="o">%</span><span class="n">britt_counter</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+                    <span class="n">britt_counter</span> <span class="o">+=</span><span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">label</span> <span class="o">==</span> <span class="s">'nick'</span><span class="p">:</span>
+                    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s">'images/train/nick_</span><span class="si">%</span><span class="s">s.jpg'</span><span class="o">%</span><span class="n">nick_counter</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+                    <span class="n">nick_counter</span> <span class="o">+=</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="n">blur</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">flip</span> <span class="o">==</span> <span class="bp">False</span> <span class="p">:</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="s">'britt'</span><span class="p">:</span>
+                    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s">'images/train/britt_</span><span class="si">%</span><span class="s">s.jpg'</span><span class="o">%</span><span class="n">britt_counter</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+                    <span class="n">britt_counter</span> <span class="o">+=</span><span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">label</span> <span class="o">==</span> <span class="s">'nick'</span><span class="p">:</span>
+                    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s">'images/train/nick_</span><span class="si">%</span><span class="s">s.jpg'</span><span class="o">%</span><span class="n">nick_counter</span><span class="p">,</span><span class="n">img</span><span class="p">)</span>
+                    <span class="n">nick_counter</span> <span class="o">+=</span><span class="mi">1</span>
+</code></pre></div></div>
+
+<h2 id="model-training">Model Training</h2>
+
+<p>For building my network, I used TFlearn’s api for building a cnn in tensorflow. This procedural approach makes building a model very easy. I did not do much hyperparameter tuning as I was getting very great validation accuracy so I stuck with the parameters below. 1 Input layer, 5 hidden layers with ladder scaling nodes from 32 - 128 - 32 using a rectified linear activation function. After every activation layer, I used a max pooling layer with 5. I won’t go into details of what these all mean, but it’s the bread and butter of why cnn works so great with object classification as it uses a flashlight style approach of scanning images for important features to build weights upon to distinguish between classes. Finally squashing my layers into a final 2 node output layer with a softmax probability of the image containing either Nick or Brittany. Taking the value gives a “probability” value seen in my final artifact.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cnn</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">'input'</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">conv_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">max_pool_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">conv_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">max_pool_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">conv_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">max_pool_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">conv_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">max_pool_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">conv_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">max_pool_2d</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">fully_connected</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">dropout</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">fully_connected</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'softmax'</span><span class="p">)</span>
+<span class="n">cnn</span> <span class="o">=</span> <span class="n">regression</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s">'adam'</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s">'categorical_crossentropy'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'targets'</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">tflearn</span><span class="o">.</span><span class="n">DNN</span><span class="p">(</span><span class="n">cnn</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">"model.tflearn"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>I trained my model locally on my macbook pro and saw validation accuracies as seen below within 20 epochs. Notice how this took x minutes running using my CPU.</p>
+
+<p>I just arrived back from AWS re:Invent which is a giant cloud computing conference where I racked up a lot of free AWS credits to see how very powerful GPU instances can train my model. Even though I got $175 in credit over the week… I’m still stingy and chose to use spot instances to get in and out at 1/10th the price. These p3 instances cost $14 an hour, multiply that by 24*365 is over x amount a year! I ran my model on a cheaper g instance and the new released p3 instance. Going from x minutes down to 3 seconds is pretty crazy. The key reason these instances can run much faster is because they have so many cuda cores. Training a neural network like this is just millions of matrix multiplications as the weights propogate the error up and back from the network until the accuracy is at good amount.</p>
+
+<h2 id="model-prediction-and-result">Model Prediction and Result</h2>
+
+<p>The biggest computational part of an image recogntion model is just the training. I’m still using the same architecture as above, but now I have the most optimal weights for every node in every layer to multiplicate
+<img src="https://media.giphy.com/media/l1KdbJwcJ748JHymI/giphy.gif" alt="jekyll Image" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s">'videos/input1.mov'</span><span class="p">)</span>
+<span class="n">face_cascade</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CascadeClassifier</span><span class="p">(</span><span class="s">'haarcascade_frontalface_default.xml'</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoWriter</span><span class="p">(</span><span class="s">'videos/output1.mov'</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_FOURCC</span><span class="p">(</span><span class="s">'m'</span><span class="p">,</span> <span class="s">'p'</span><span class="p">,</span> <span class="s">'4'</span><span class="p">,</span> <span class="s">'v'</span><span class="p">),</span> <span class="mi">20</span><span class="p">,</span> <span class="p">(</span><span class="mi">720</span><span class="p">,</span><span class="mi">1280</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">600</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">img</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">faces</span> <span class="o">=</span> <span class="n">face_cascade</span><span class="o">.</span><span class="n">detectMultiScale</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="n">minSize</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="p">))</span>
+        <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="n">faces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),(</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">),(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">img_pred</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="p">,</span><span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="p">,:]</span>
+        <span class="n">img_pred</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img_pred</span><span class="p">,(</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">),</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">INTER_CUBIC</span><span class="p">)</span>
+        <span class="n">img_pred</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img_pred</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img_pred</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">preds</span> <span class="o">=</span>  <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img_pred</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">nick</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">britt</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pred</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lab</span> <span class="o">=</span> <span class="s">'Nick : </span><span class="si">%</span><span class="s">s'</span><span class="o">%</span><span class="n">nick</span>
+        <span class="k">elif</span> <span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">lab</span> <span class="o">=</span> <span class="s">'Brittany : </span><span class="si">%</span><span class="s">s'</span><span class="o">%</span><span class="n">britt</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">lab</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>Welcome to my abode! I’m a current data engineer pursuing my Masters part time
+in Computer Science and wanted a place to host all my fun data driven projects. My site will mostly contain projects and implementations in the realm of Machine Learning &amp;&amp; Data Science &amp;&amp; Cloud Computing. I was studying optimization, statistics, and computational data analysis courses for my undergrad throughout 2012-2017, but now a days I’m more interested in application and scalability of these algos including the use of the { cloud }.</p>
+
+<p>I have used this theme in my own php and ruby blogs.I got inspired by <a href="https://github.com/taylantatli/">taylantatli</a>’s <a href="https://github.com/taylantatli/moon">moon</a> and <a href="https://github.com/taylantatli/ramme">ramme</a> themes to use this theme in Jekyll.</p>
+
+<p>I’m not a designer or something, so I’m sure there is a better way to make this theme. But it’s working and looks acceptable for different screen sizes. If something looks extremely ugly and you can’t resist to fix it, just send me a PR. I will be grateful.</p>
+
+<p>I see some people using this theme. I need to search on Github to find who use it. But I don’t want to search like this. If you like this theme or using it, please give a <strong>star</strong> for motivation.</p>
+
+<h2 id="installation">Installation</h2>
+<ul>
+  <li>Fork the <a href="https://github.com/alperenbozkurt/JBlog/fork">Repo</a></li>
+  <li>Edit <code class="highlighter-rouge">_config.yml</code> file.</li>
+  <li>Remove sample posts from <code class="highlighter-rouge">_posts</code> folder and add yours.</li>
+  <li>Edit <code class="highlighter-rouge">index.md</code> file in <code class="highlighter-rouge">about</code> folder.</li>
+  <li>Change repo name to <code class="highlighter-rouge">YourUserName.github.io</code></li>
+</ul>
+
+<p>That’s all.</p>
+
+<h2 id="scaffolding">Scaffolding</h2>
+<p>How JBlog is organized and what the various files are. All posts, layouts, includes, stylesheets, assets, and whatever else is grouped nicely under the root folder.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">├── face_ar.py
+├── face_grab.py
+├── face_augmentation.py
+├── model_train.py
+├── images
+│   ├── face_images   
+│   │   ├── nick_*.jpg                             
+│   │   ├── britt_*.jpg                           
+│   ├── raw_images   
+│   │   ├── nick_*.jpg                            
+│   │   ├── britt_*.jpg                                
+│   ├── train   
+│   │   ├── nick_*.jpg                            
+│   │   ├── britt_*.jpg                              
+├── videos                                    
+│   ├── input_*.mov   
+│   └── navigation.yml                        </code></pre></figure>
+
+<hr />
+
+<h2 id="site-setup">Site Setup</h2>
+<p>A quick checklist of the files you’ll want to edit to get up and running.</p>
+
+<h3 id="site-wide-configuration">Site Wide Configuration</h3>
+<p><code class="highlighter-rouge">_config.yml</code> is your friend. Open it up and personalize it. Most variables are self explanatory but here’s an explanation of each if needed:</p>
+
+<h4 id="title">title</h4>
+
+<p>The title of your site… shocker!</p>
+
+<p>Example <code class="highlighter-rouge">title: My Awesome Site</code></p>
+
+<h4 id="url">url</h4>
+
+<p>Used to generate absolute urls in <code class="highlighter-rouge">sitemap.xml</code>, <code class="highlighter-rouge">feed.xml</code>, and for generating canonical URLs in <code class="highlighter-rouge">&lt;head&gt;</code>. When developing locally either comment this out or use something like <code class="highlighter-rouge">http://localhost:4000</code> so all assets load properly. <em>Don’t include a trailing <code class="highlighter-rouge">/</code></em>.</p>
+
+<p>Examples:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">url</span><span class="pi">:</span> <span class="s">http://alperenbozkurt.net/JBlog</span>
+<span class="na">url</span><span class="pi">:</span> <span class="s">http://localhost:4000</span>
+<span class="na">url</span><span class="pi">:</span> <span class="s">//cooldude.github.io</span>
+<span class="na">url</span><span class="pi">:</span></code></pre></figure>
+
+<h4 id="google-analytics-and-webmaster-tools">Google Analytics and Webmaster Tools</h4>
+
+<p>Google Analytics UA and Webmaster Tool verification tags can be entered in <code class="highlighter-rouge">_config.yml</code>. For more information on obtaining these meta tags check <a href="http://support.google.com/webmasters/bin/answer.py?hl=en&amp;answer=35179">Google Webmaster Tools</a> and <a href="https://ssl.bing.com/webmaster/configure/verify/ownership">Bing Webmaster Tools</a> support.</p>
+
+<hr />
+
+<h3 id="navigation-links">Navigation Links</h3>
+
+<p>To set what links appear in the top navigation edit <code class="highlighter-rouge">_data/navigation.yml</code>. Use the following format to set the URL and title for as many links as you’d like. <em>External links will open in a new window.</em></p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">Home</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">/</span>
+
+<span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">Blog</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">/blog/</span>
+
+<span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">Projects</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">/projects/</span>
+
+<span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">About</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">/about/</span>
+
+<span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">JBlog</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">http://alperenbozkurt.net/JBlog</span></code></pre></figure>
+
+<hr />
+
+<h2 id="layouts-and-content">Layouts and Content</h2>
+
+<p>Explanations of the various <code class="highlighter-rouge">_layouts</code> included with the theme and when to use them.</p>
+
+<h3 id="post-and-page">Post and Page</h3>
+
+<p>These two layouts are almost similar. Only difference is page layout doesn’t show date under title.</p>
+
+<h3 id="post-index-page">Post Index Page</h3>
+
+<p>A <a href="/blog/">sample index page</a> listing all blog posts. The name can be customized to your liking by editing a few references. For example, to change <strong>Blog</strong> to <strong>Posts</strong> update the following:</p>
+
+<ul>
+  <li>In <code class="highlighter-rouge">_data/navigation.yml</code>: rename the title and URL to the following:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml">  <span class="pi">-</span> <span class="na">title</span><span class="pi">:</span> <span class="s">Posts</span>
+    <span class="na">url</span><span class="pi">:</span> <span class="s">/posts/</span></code></pre></figure>
+
+<ul>
+  <li>Rename <code class="highlighter-rouge">blog/index.md</code> to <code class="highlighter-rouge">posts/index.md</code> and update the YAML front matter accordingly.</li>
+</ul>
+
+<h3 id="thumbnails-for-og-and-twitter-cards">Thumbnails for OG and Twitter Cards</h3>
+
+<p>Site logo is used by <a href="https://developers.facebook.com/docs/opengraph/">Open Graph</a> and <a href="https://dev.twitter.com/docs/cards">Twitter Cards</a>.</p>
+
+<p class="notice"><strong>Pro-Tip</strong>: You need to <a href="https://dev.twitter.com/docs/cards">apply for Twitter Cards</a> before they will begin showing up when links to your site are shared.</p>
+
+<h3 id="kramdown-table-of-contents">Kramdown Table of Contents</h3>
+
+<p>To include an auto-generated <strong>table of contents</strong> for posts and pages, add the following <code class="highlighter-rouge">_include</code> before the actual content. <a href="http://kramdown.rubyforge.org/converter/html.html#toc">Kramdown will take care of the rest</a> and convert all headlines into list of links.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">{% include toc.html %}</code></pre></figure>
+
+<hr />
+
+<h2 id="questions">Questions?</h2>
+
+<p>Found a bug or aren’t quite sure how something works? By all means <a href="https://github.com/alperenbozkurt/JBlog/issues/new">file a GitHub Issue</a>. And if you make something cool with this theme feel free to let me know.</p>
+
+<hr />
+
+<h2 id="license">License</h2>
+
+<p>This theme is free and open source software, distributed under the MIT License. So feel free to use this Jekyll theme on your site without linking back to me or including a disclaimer.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2017-10-14T00:00:00-05:00">October 14, 2017</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Face+Recognition%20%2FFace-Recognition%2F" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2FFace-Recognition%2F" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=%2FFace-Recognition%2F" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2FFace-Recognition%2F" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/Serverless-Web-Hosting/" class="pagination--pager" title="Server-less Web Hosting - In Progress
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/Serverless-Web-Hosting/" rel="permalink">Server-less Web Hosting - In Progress
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+
+
+  less than 1 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">#TODO
+Write about how I built this website using Jekyll, Markdown, and Static website hosting with AWS s3 and Route 53
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/Seam-Carving/" rel="permalink">Seam Carving -In Progress
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+
+
+  less than 1 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">#TODO
+Write about computer vision project of converting images into an energy function and using optimization to remove vertical and horizontal seams to redu...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/Augmented-Reality/" rel="permalink">Augmented Reality - In Progress
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+
+
+  less than 1 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">#TODO
+Write about computer vision project of demonstrating augmented reality by projecting a 2d image onto a wall with corners and using homography for scali...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/nick-anderson"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 Nick Anderson. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-112044871-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+  </body>
+</html>
